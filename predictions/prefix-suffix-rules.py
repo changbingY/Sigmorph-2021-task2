@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
 
 import numpy as np
 
 all_word = []
-file = open("Bulgarian.5.preds",'r')
+file = open("Language.5.preds",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
@@ -16,7 +14,7 @@ for index, line in enumerate(lines):
     if line == '\n':
         indexlist_id.append(index)
 
-with open("Bulgarian_just20_remove_big.txt", "w") as f29:
+with open("Language_just20_remove_big.txt", "w") as f29:
     for i in range(1,len(indexlist_id)):
         if 1< indexlist_id[i]-indexlist_id[i-1]-1 <=20:
             for n in range(len(lines)):
@@ -24,8 +22,6 @@ with open("Bulgarian_just20_remove_big.txt", "w") as f29:
                     f29.write(lines[n])
                     
 
-
-# In[1]:
 
 
 def printLCSSubStr(X: str, Y: str,
@@ -73,10 +69,6 @@ def printLCSSubStr(X: str, Y: str,
 
 
 
-
-# In[2]:
-
-
 import copy
 
 def combine(l, n): 
@@ -93,13 +85,10 @@ def combine(l, n):
     return answers
 
 
-# In[3]:
-
-
 import numpy as np
 
 all_word = []
-file = open("Bulgarian_just20_remove_big.txt",'r')
+file = open("Language_just20_remove_big.txt",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
@@ -123,10 +112,7 @@ for i in range(len(indexlist_id)):
             word = line.split("\n")
             word_list.append(word[0])
     all_list.append(word_list)
-            
-
-
-# In[4]:
+           
 
 
 paradigm = []
@@ -135,7 +121,6 @@ for n in all_list:
         for i in combine(n, 2):
             str1 = i[0]
             str2 = i[1]
-#             print(str1)
             X = i[0]
             Y = i[1]
             m = len(X)
@@ -151,9 +136,6 @@ for n in all_list:
                 paradigm.append(extra_str1_1 +"->"+extra_str2_1+"+"+extra_str1_2 +"->"+extra_str2_2)
 
 
-# In[5]:
-
-
 all_list = []
 for i in range(len(indexlist_id)):
     word_list = []
@@ -167,42 +149,30 @@ for i in range(len(indexlist_id)):
             word_list.append(word[0])
     all_list.append(word_list)
 
-            
-
-
-# In[6]:
+           
 
 
 import collections
 overlap_para = collections.Counter(paradigm)
 
 
-# In[7]:
-
 
 x1= overlap_para.most_common(len(overlap_para))
 x2 = [key for (key, count) in x1]
 
 
-# In[8]:
-
-
 over_lap2 = x2
 
 
-# In[9]:
-
 
 all_of_the_word1 = []
-file88 = open("Bulgarian.5.preds",'r')
+file88 = open("Language.5.preds",'r')
 lines88 = file88.readlines()
 for line in lines88:
     if line != '\n':
         word = line.strip()
         all_of_the_word1.append(word)
 
-
-# In[10]:
 
 
 all_of_the_word_nodup = []
@@ -211,18 +181,12 @@ for m in all_of_the_word1:
         all_of_the_word_nodup.append(m)
 
 
-# In[11]:
-
-
 all_of_the_word = all_of_the_word_nodup
 
 
 # Prefix-Sufix Using all rules
 
-# In[ ]:
-
-
-with open ('Bulgarian_pairwise_all_rules.txt','w') as file50:
+with open ('Language_pairwise_all_rules.txt','w') as file50:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
             file50.write(n +'\n')
@@ -255,10 +219,7 @@ with open ('Bulgarian_pairwise_all_rules.txt','w') as file50:
 
 # Prefix-Sufix Using all suffix rules
 
-# In[ ]:
-
-
-with open ('Bulgarian_pairwise_all_suffix.txt','w') as file50:
+with open ('Language_pairwise_all_suffix.txt','w') as file50:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
             file50.write(n +'\n')
@@ -288,8 +249,6 @@ with open ('Bulgarian_pairwise_all_suffix.txt','w') as file50:
                        all_of_the_word.remove(new_item)
             file50.write('\n')
 
-
-# In[ ]:
 
 
 
