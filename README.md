@@ -39,7 +39,9 @@ array([ 1.6117e+00,  7.7046e-01,  1.1539e-01,  7.6902e-01, -2.5082e-01,
 Embedding vectors can can be used as input for [`sklearn.cluste.KMeans`](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
 
 
-## Prediction
+## Predictions
 
-Codes and generated files of Prefix and Suffix rules systems and Discontinuous rules systems are in the directory `Prediction`:
+Codes and generated files of Prefix and Suffix rules systems and Discontinuous rules systems are in the directory `Predictions`:
+
+You can use `predict.py` to generate results based on Prefix and Suffix rules. 
 
