@@ -43,5 +43,5 @@ Embedding vectors can can be used as input for [`sklearn.cluste.KMeans`](https:/
 
 Codes and generated files of Prefix and Suffix rules systems and Discontinuous rules systems are in the directory `Predictions`:
 
-You can use `predict.py` to generate results based on Prefix and Suffix rules. 
+You can use `prefix-suffix-rules.py` to generate results based on Prefix and Suffix rules. 
 
