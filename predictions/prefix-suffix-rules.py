@@ -3,38 +3,28 @@
 
 
 import numpy as np
+import copy
+import collections
 
-all_word = []
 file = open("Language.5.preds",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
-
 for index, line in enumerate(lines):
     if line == '\n':
         indexlist_id.append(index)
 
-with open("Language_just20_remove_big.txt", "w") as f29:
+with open("Language_just20_remove_big.txt", "w") as f29: ##remove big paradigms(equal to or larger than 20 words) 
     for i in range(1,len(indexlist_id)):
         if 1< indexlist_id[i]-indexlist_id[i-1]-1 <=20:
             for n in range(len(lines)):
                 if indexlist_id[i-1]<n<=indexlist_id[i]:
                     f29.write(lines[n])
                     
-
-
-
-def printLCSSubStr(X: str, Y: str,
-                 m: int, n: int):
-
-
-    LCSuff = [[0 for i in range(n + 1)]
-                for j in range(m + 1)]
-
+def printLCSSubStr(X: str, Y: str, m: int, n: int): #get longest common substring
+    LCSuff = [[0 for i in range(n + 1)] for j in range(m + 1)]
     length = 0
     row, col = 0, 0
-
-
     for i in range(m + 1):
         for j in range(n + 1):
             if i == 0 or j == 0:
@@ -47,31 +37,17 @@ def printLCSSubStr(X: str, Y: str,
                     col = j
             else:
                 LCSuff[i][j] = 0
-
-
     if length == 0:
         return 0,0,0
-
-
     resultStr = ['0'] * length
-
-
     while LCSuff[row][col] != 0:
         length -= 1
         resultStr[length] = X[row - 1] # or Y[col-1]
-
-
         row -= 1
         col -= 1
-
-
     return(''.join(resultStr), row, len(''.join(resultStr))+row)
 
-
-
-import copy
-
-def combine(l, n): 
+def combine(l, n): #generate two-word combination within one paradigm
     answers = []
     one = [0] * n 
     def next_c(li = 0, ni = 0): 
@@ -84,17 +60,10 @@ def combine(l, n):
     next_c()
     return answers
 
-
-import numpy as np
-
-all_word = []
 file = open("Language_just20_remove_big.txt",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
-indexlist_ref = []
-indexlist_mb = []
-indexlist_tx = []
 
 for index, line in enumerate(lines):
     if line == '\n':
@@ -114,8 +83,7 @@ for i in range(len(indexlist_id)):
     all_list.append(word_list)
            
 
-
-paradigm = []
+paradigm = []  #extract rules according to the longest common substring
 for n in all_list:
     if len(n)>= 2:
         for i in combine(n, 2):
@@ -149,21 +117,10 @@ for i in range(len(indexlist_id)):
             word_list.append(word[0])
     all_list.append(word_list)
 
-           
-
-
-import collections
 overlap_para = collections.Counter(paradigm)
-
-
-
 x1= overlap_para.most_common(len(overlap_para))
 x2 = [key for (key, count) in x1]
-
-
 over_lap2 = x2
-
-
 
 all_of_the_word1 = []
 file88 = open("Language.5.preds",'r')
@@ -173,14 +130,10 @@ for line in lines88:
         word = line.strip()
         all_of_the_word1.append(word)
 
-
-
 all_of_the_word_nodup = []
 for m in all_of_the_word1:
     if m not in all_of_the_word_nodup:
         all_of_the_word_nodup.append(m)
-
-
 all_of_the_word = all_of_the_word_nodup
 
 
