@@ -6,20 +6,6 @@ import numpy as np
 import copy
 import collections
 
-file = open("Language.5.preds",'r')
-lines = file.readlines()
-datalists = []
-indexlist_id = []
-for index, line in enumerate(lines):
-    if line == '\n':
-        indexlist_id.append(index)
-
-with open("Language_just20_remove_big.txt", "w") as f29: ##remove big paradigms(equal to or larger than 20 words) 
-    for i in range(1,len(indexlist_id)):
-        if 1< indexlist_id[i]-indexlist_id[i-1]-1 <=20:
-            for n in range(len(lines)):
-                if indexlist_id[i-1]<n<=indexlist_id[i]:
-                    f29.write(lines[n])
                     
 def printLCSSubStr(X: str, Y: str, m: int, n: int): #get longest common substring
     LCSuff = [[0 for i in range(n + 1)] for j in range(m + 1)]
@@ -47,6 +33,7 @@ def printLCSSubStr(X: str, Y: str, m: int, n: int): #get longest common substrin
         col -= 1
     return(''.join(resultStr), row, len(''.join(resultStr))+row)
 
+
 def combine(l, n): #generate two-word combination within one paradigm
     answers = []
     one = [0] * n 
@@ -60,7 +47,8 @@ def combine(l, n): #generate two-word combination within one paradigm
     next_c()
     return answers
 
-file = open("Language_just20_remove_big.txt",'r')
+
+file = open("~/data/Language_remove_big.txt",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
