@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-file = open("Persian.5.preds.rp.top_n=500.tables",'r')
+file = open("../predictions/fst_rules/Language.5.preds.rp.top_n=500.tables",'r')
 lines = file.readlines()
 indexlist_id = []
 for index, line in enumerate(lines):
@@ -77,7 +77,7 @@ def qualify_candidate(paradigm_group,Weight_freq_list):
     return candidate_words
 
 from embeddings import load
-emb = load("../embeddings/Persian.bible.txt.vec")
+emb = load("../embeddings/Language.bible.txt.vec")
 import numpy as np
 import scipy.spatial.distance
 
@@ -98,7 +98,7 @@ def similarity(wf1,wf2,emb):
     else:
         return 1
 
-with open('Persian_fst_500_result.txt','w') as file_FST:
+with open('../predictions/fst_rules/Language_fst_500_result.txt','w') as file_FST:
     removed_word = []
     for x in big_cluster:
         break_time = 0
