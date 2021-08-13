@@ -111,9 +111,9 @@ x2 = [key for (key, count) in x1]
 over_lap2 = x2
 
 all_of_the_word1 = []
-file88 = open("Language.5.preds",'r')
-lines88 = file88.readlines()
-for line in lines88:
+file_baseline = open("~/data/Language.5.preds",'r')
+lines_baseline = file_baseline.readlines()
+for line in lines_baseline:
     if line != '\n':
         word = line.strip()
         all_of_the_word1.append(word)
@@ -126,11 +126,10 @@ all_of_the_word = all_of_the_word_nodup
 
 
 # Prefix-Sufix Using all rules
-
-with open ('Language_pairwise_all_rules.txt','w') as file50:
+with open ('~/prediction/Language_pairwise_all_rules.txt','w') as file_generate:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
-            file50.write(n +'\n')
+            file_generate.write(n +'\n')
             all_of_the_word.remove(n)
             for m in over_lap2:
                 prefix = m.split("+")[0]
@@ -143,27 +142,24 @@ with open ('Language_pairwise_all_rules.txt','w') as file50:
                     yy = len(prefix_left)
                     xx = n.rindex(suffix_left)
                     new_item = prefix_right + n[yy:xx] + suffix_right
-#                         new_item = n[:xx] + suffix_right
                     if new_item in all_of_the_word:
-                       file50.write(new_item +'\n')
+                       file_generate.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
                 if n.startswith(prefix_right) and n.endswith(suffix_right):
                     yy = len(prefix_right)
                     xx = n.rindex(suffix_right)
                     new_item = prefix_left + n[yy:xx] + suffix_left
-#                         new_item = n[:xx] + suffix_left
                     if new_item in all_of_the_word:
-                       file50.write(new_item +'\n')
+                       file_generate.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
-            file50.write('\n')
+            file_generate.write('\n')
 
 
 # Prefix-Sufix Using all suffix rules
-
-with open ('Language_pairwise_all_suffix.txt','w') as file50:
+with open ('~/prediction/Language_pairwise_all_suffix.txt','w') as file_generate:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
-            file50.write(n +'\n')
+            file_generate.write(n +'\n')
             all_of_the_word.remove(n)
             for m in over_lap2:
                 prefix = m.split("+")[0]
@@ -175,22 +171,15 @@ with open ('Language_pairwise_all_suffix.txt','w') as file50:
                 if n.startswith(prefix_left) and n.endswith(suffix_left):
                     yy = len(prefix_left)
                     xx = n.rindex(suffix_left)
-#                     new_item = prefix_right + n[yy:xx] + suffix_right
                     new_item = n[:xx] + suffix_right
                     if new_item in all_of_the_word:
-                       file50.write(new_item +'\n')
+                       file_generate.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
                 if n.startswith(prefix_right) and n.endswith(suffix_right):
                     yy = len(prefix_right)
                     xx = n.rindex(suffix_right)
-#                     new_item = prefix_left + n[yy:xx] + suffix_left
                     new_item = n[:xx] + suffix_left
                     if new_item in all_of_the_word:
-                       file50.write(new_item +'\n')
+                       file_generate.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
-            file50.write('\n')
-
-
-
-
-
+            file_generate.write('\n')
