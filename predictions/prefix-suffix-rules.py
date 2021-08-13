@@ -48,7 +48,7 @@ def combine(l, n): #generate two-word combination within one paradigm
     return answers
 
 
-file = open("~/data/Language_remove_big.txt",'r')
+file = open("../data/Language_remove_big.txt",'r')
 lines = file.readlines()
 datalists = []
 indexlist_id = []
@@ -111,7 +111,7 @@ x2 = [key for (key, count) in x1]
 over_lap2 = x2
 
 all_of_the_word1 = []
-file_baseline = open("~/data/Language.5.preds",'r')
+file_baseline = open("../data/Language.5.preds",'r')
 lines_baseline = file_baseline.readlines()
 for line in lines_baseline:
     if line != '\n':
@@ -126,7 +126,7 @@ all_of_the_word = all_of_the_word_nodup
 
 
 # Prefix-Sufix Using all rules
-with open ('~/prediction/Language_pairwise_all_rules.txt','w') as file_generate:
+with open ('../prediction/Language_pairwise_all_rules.txt','w') as file_generate:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
             file_generate.write(n +'\n')
@@ -156,10 +156,10 @@ with open ('~/prediction/Language_pairwise_all_rules.txt','w') as file_generate:
 
 
 # Prefix-Sufix Using all suffix rules
-with open ('~/prediction/Language_pairwise_all_suffix.txt','w') as file_generate:
+with open ('../prediction/Language_pairwise_all_suffix.txt','w') as file_generate2:
     while len(all_of_the_word) != 0:
         for n in all_of_the_word:
-            file_generate.write(n +'\n')
+            file_generate2.write(n +'\n')
             all_of_the_word.remove(n)
             for m in over_lap2:
                 prefix = m.split("+")[0]
@@ -173,13 +173,13 @@ with open ('~/prediction/Language_pairwise_all_suffix.txt','w') as file_generate
                     xx = n.rindex(suffix_left)
                     new_item = n[:xx] + suffix_right
                     if new_item in all_of_the_word:
-                       file_generate.write(new_item +'\n')
+                       file_generate2.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
                 if n.startswith(prefix_right) and n.endswith(suffix_right):
                     yy = len(prefix_right)
                     xx = n.rindex(suffix_right)
                     new_item = n[:xx] + suffix_left
                     if new_item in all_of_the_word:
-                       file_generate.write(new_item +'\n')
+                       file_generate2.write(new_item +'\n')
                        all_of_the_word.remove(new_item)
-            file_generate.write('\n')
+            file_generate2.write('\n')
