@@ -8,7 +8,6 @@ for index, line in enumerate(lines):
     if line == '\n':
         indexlist_id.append(index)
 
-
 big_cluster = []
 for i in range(1,len(indexlist_id)):
     if indexlist_id[i]-indexlist_id[i-1]-1 != 1 :
@@ -30,20 +29,17 @@ for i in range(1,len(indexlist_id)):
                 group_cluster.append(word)
         big_cluster.append(group_cluster)
             
-
 def Get_degree_num(input_list):
     d ={}
     for x in input_list:
         d[x[0]] = [int(x[1]),int(x[2])]
     return d
 
-
 def Get_input_wordlist(input_list):
     aa = []
     for x in input_list:
         aa.append(x[0])
     return aa
-
 
 def Find_med(L):
     l = len(L) 
@@ -56,7 +52,6 @@ def Find_med(L):
         m = L[int((l-1)/2)] 
         med = m
         return med 
-
 
 def list_of_weight(listwords2,Weight_freq_list):
     all_words_each_group = []
@@ -81,7 +76,6 @@ def qualify_candidate(paradigm_group,Weight_freq_list):
                 break         
     return candidate_words
 
-
 from embeddings import load
 emb = load("../embeddings/Persian.bible.txt.vec")
 import numpy as np
@@ -104,7 +98,7 @@ def similarity(wf1,wf2,emb):
     else:
         return 1
 
-with open('Persian_fst_500_result.txt','w') as file50:
+with open('Persian_fst_500_result.txt','w') as file_FST:
     removed_word = []
     for x in big_cluster:
         break_time = 0
@@ -123,21 +117,21 @@ with open('Persian_fst_500_result.txt','w') as file50:
                         cosine_sim1 = similarity(each_word,candidate_words[0],emb)
                         cosine_sim2 = similarity(candidate_words[0],candidate_words[1],emb)
                         if abs(cosine_sim1) > 0.5 and abs(cosine_sim2 - cosine_sim1) <= 0.3:
-                            file50.write(each_word + '\n')
+                            file_FST.write(each_word + '\n')
                         else:
                             removed_word.append(each_word)
                     else:
-                        file50.write(each_word + '\n')
+                        file_FST.write(each_word + '\n')
             else:
                 for each_word in small_group:  
-                    file50.write(each_word + '\n')
-            file50.write('\n')
+                    file_FST.write(each_word + '\n')
+            file_FST.write('\n')
 
             
         break_time = 0
         if len(x)<20 and break_time == 0:
             for each_word in x: 
-                file50.write(each_word[0] + '\n') 
-            file50.write('\n')    
+                file_FST.write(each_word[0] + '\n') 
+            file_FST.write('\n')    
 
 print(removed_word)
