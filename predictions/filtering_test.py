@@ -134,4 +134,4 @@ with open('Persian_fst_500_result.txt','w') as file_FST:
                 file_FST.write(each_word[0] + '\n') 
             file_FST.write('\n')    
 
-print(removed_word)
+print(removed_word) #print filtering words (words fail to pass the three tests)
