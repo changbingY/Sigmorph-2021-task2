@@ -50,7 +50,7 @@ def combine(l, n): #generate two-word combination within one paradigm
 
 
 def Generate(language_name):
-  file = open("../data/Language_remove_big.txt",'r')
+  file = open("../data/"+language_name+"_remove_big.txt",'r')
   lines = file.readlines()
   datalists = []
   indexlist_id = []
@@ -72,7 +72,7 @@ def Generate(language_name):
     all_list.append(word_list)
    
   paradigm = []  #extract rules according to the longest common substring
-  for n in all_list:
+  for n in all_list_all:
     if len(n)>= 2:
       for i in combine(n, 2):
         str1 = i[0]
@@ -91,27 +91,13 @@ def Generate(language_name):
           extra_str2 = extra_str2_1+extra_str2_2
           paradigm.append(extra_str1_1 +"->"+extra_str2_1+"+"+extra_str1_2 +"->"+extra_str2_2)
 
-
-  all_list = []
-  for i in range(len(indexlist_id)):
-    word_list = []
-    if i == len(indexlist_id) - 1:
-      current_lines = lines[indexlist_id[i]:]
-    else:
-      current_lines = lines[indexlist_id[i]: indexlist_id[i + 1]]
-    for line in current_lines:
-      if line != '\n':
-        word = line.split("\n")
-        word_list.append(word[0])
-    all_list.append(word_list)
-
   overlap_para = collections.Counter(paradigm)
   x1= overlap_para.most_common(len(overlap_para))
   x2 = [key for (key, count) in x1]
   over_lap2 = x2
 
   all_of_the_word1 = []
-  file_baseline = open("../data/Language.5.preds",'r')
+  file_baseline = open("../data/"+language_name+".5.preds",'r')
   lines_baseline = file_baseline.readlines()
   for line in lines_baseline:
     if line != '\n':
@@ -126,7 +112,7 @@ def Generate(language_name):
 
 
   # Prefix-Sufix Using all rules
-  with open ('../prediction/Language_pairwise_all_rules.txt','w') as file_generate:
+  with open ('../prediction/"+language_name+"_pairwise_all_rules.txt",'w') as file_generate:
     while len(all_of_the_word) != 0:
       for n in all_of_the_word:
         file_generate.write(n +'\n')
@@ -158,5 +144,4 @@ if __name__ == '__main__':
     parser = ArgumentParser(description='Generating new paradigms')
     parser.add_argument('--language',type=str, help='The ground truth file')
     args = parser.parse_args()
-    Generate(args.language)
-        
+    Generate(args.language)       
