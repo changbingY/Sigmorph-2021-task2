@@ -1,33 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-file = open("../predictions/fst_rules/Language.5.preds.rp.top_n=500.tables",'r')
-lines = file.readlines()
-indexlist_id = []
-for index, line in enumerate(lines):
-    if line == '\n':
-        indexlist_id.append(index)
-
-big_cluster = []
-for i in range(1,len(indexlist_id)):
-    if indexlist_id[i]-indexlist_id[i-1]-1 != 1 :
-        group_cluster = []
-        for n in range(len(lines)):
-            if n> indexlist_id[i-1] and n <indexlist_id[i]:
-                word_string = lines[n].strip()
-                each_element = word_string.split('\t')
-                word = [each_element[0],each_element[1],each_element[2]]
-                group_cluster.append(word)
-        big_cluster.append(group_cluster)
-    if indexlist_id[i]-indexlist_id[i-1]-1 == 1 :
-        group_cluster = []
-        for n in range(len(lines)):
-            if n> indexlist_id[i-1] and n <indexlist_id[i]:
-                word_string = lines[n].strip()
-                each_element = word_string.split('\t')
-                word = [each_element[0],each_element[1],each_element[2]]
-                group_cluster.append(word)
-        big_cluster.append(group_cluster)
+import argparse
+from argparse import ArgumentParser
             
 def Get_degree_num(input_list):
     d ={}
@@ -98,40 +72,76 @@ def similarity(wf1,wf2,emb):
     else:
         return 1
 
-with open('../predictions/fst_rules/Language_fst_500_result.txt','w') as file_FST:
-    removed_word = []
-    for x in big_cluster:
-        break_time = 0
-        if len(x)>=20 and break_time == 0:
-            break_time += 1
-            degree_num_list = Get_degree_num(x)
-            small_group = Get_input_wordlist(x)
-            all_words_each_group = list_of_weight(small_group,degree_num_list)
-            candidate_words = qualify_candidate(small_group,degree_num_list)
-            median_num = Find_med(all_words_each_group)
-            if len(candidate_words) >=2:
-                for each_word in small_group:
-                    each_word_weight = degree_num_list.get(each_word)[0]
-                    each_word_degree_num = degree_num_list.get(each_word)[1]
-                    if each_word_degree_num != None and each_word_degree_num <=len(small_group)/3 and each_word_weight <= float(median_num):
-                        cosine_sim1 = similarity(each_word,candidate_words[0],emb)
-                        cosine_sim2 = similarity(candidate_words[0],candidate_words[1],emb)
-                        if abs(cosine_sim1) > 0.5 and abs(cosine_sim2 - cosine_sim1) <= 0.3:
-                            file_FST.write(each_word + '\n')
+def main(language_name):
+    file = open("../predictions/fst_rules/"+language_name+".5.preds.rp.top_n=500.tables",'r')
+    lines = file.readlines()
+    indexlist_id = []
+    for index, line in enumerate(lines):
+        if line == '\n':
+            indexlist_id.append(index)
+
+    big_cluster = []
+    for i in range(1,len(indexlist_id)):
+        if indexlist_id[i]-indexlist_id[i-1]-1 != 1 :
+            group_cluster = []
+            for n in range(len(lines)):
+                if n> indexlist_id[i-1] and n <indexlist_id[i]:
+                    word_string = lines[n].strip()
+                    each_element = word_string.split('\t')
+                    word = [each_element[0],each_element[1],each_element[2]]
+                    group_cluster.append(word)
+            big_cluster.append(group_cluster)
+        if indexlist_id[i]-indexlist_id[i-1]-1 == 1 :
+            group_cluster = []
+            for n in range(len(lines)):
+                if n> indexlist_id[i-1] and n <indexlist_id[i]:
+                    word_string = lines[n].strip()
+                    each_element = word_string.split('\t')
+                    word = [each_element[0],each_element[1],each_element[2]]
+                    group_cluster.append(word)
+            big_cluster.append(group_cluster)
+            
+    with open('../predictions/fst_rules/"+language_name+"_fst_500_result.txt','w') as file_FST:
+        removed_word = []
+        for x in big_cluster:
+            break_time = 0
+            if len(x)>=20 and break_time == 0:
+                break_time += 1
+                degree_num_list = Get_degree_num(x)
+                small_group = Get_input_wordlist(x)
+                all_words_each_group = list_of_weight(small_group,degree_num_list)
+                candidate_words = qualify_candidate(small_group,degree_num_list)
+                median_num = Find_med(all_words_each_group)
+                if len(candidate_words) >=2:
+                    for each_word in small_group:
+                        each_word_weight = degree_num_list.get(each_word)[0]
+                        each_word_degree_num = degree_num_list.get(each_word)[1]
+                        if each_word_degree_num != None and each_word_degree_num <=len(small_group)/3 and each_word_weight <= float(median_num):
+                            cosine_sim1 = similarity(each_word,candidate_words[0],emb)
+                            cosine_sim2 = similarity(candidate_words[0],candidate_words[1],emb)
+                            if abs(cosine_sim1) > 0.5 and abs(cosine_sim2 - cosine_sim1) <= 0.3:
+                                file_FST.write(each_word + '\n')
+                            else:
+                                removed_word.append(each_word)
                         else:
-                            removed_word.append(each_word)
-                    else:
+                            file_FST.write(each_word + '\n')
+                else:
+                    for each_word in small_group:  
                         file_FST.write(each_word + '\n')
-            else:
-                for each_word in small_group:  
-                    file_FST.write(each_word + '\n')
-            file_FST.write('\n')
+                file_FST.write('\n')
 
             
-        break_time = 0
-        if len(x)<20 and break_time == 0:
-            for each_word in x: 
-                file_FST.write(each_word[0] + '\n') 
-            file_FST.write('\n')    
+            break_time = 0
+            if len(x)<20 and break_time == 0:
+                for each_word in x: 
+                    file_FST.write(each_word[0] + '\n') 
+                file_FST.write('\n')    
 
-print(removed_word) #print filtering words (words fail to pass the three tests)
+    print(removed_word) #print filtering words (words fail to pass the three tests)      
+
+if __name__ == '__main__':
+    parser = ArgumentParser(description='Filtering paradigms')
+    parser.add_argument('--language',type=str, help='The ground truth file')
+    args = parser.parse_args()
+    main(args.language)            
+       
