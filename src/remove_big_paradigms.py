@@ -25,6 +25,6 @@ def Remove(language_name):
                     
 if __name__ == '__main__':
     parser = ArgumentParser(description='Removing large paradigms')
-    parser.add_argument('--language',type=str, help='The ground truth file')
+    parser.add_argument('--language',type=str, help='Choose the language file you want to process')
     args = parser.parse_args()
     Remove(args.language)
